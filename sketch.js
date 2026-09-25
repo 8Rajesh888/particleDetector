@@ -3,10 +3,17 @@ const r = require("raylib");
 const screenWidth = 1700;
 
 const screenHeight = 900;
-const detectWidth = 20;
+const scannerWidth = 40;
 
-let rectangleXAxis = 0;
+let rectangleXCord = 0;
 let isMovingForward = true;
+let colour;
+
+const particle1Start = 500;
+const particle1End = 800;
+
+const particle2Start = 1300;
+const particle2End = 1315;
 
 function running() {
     return !r.WindowShouldClose();
@@ -20,11 +27,12 @@ function setup() {
 }
 
 function update() {
-    rectangleXAxis = detectMove();
+    rectangleXCord = detectMove();
 
     if (isCollidingWall()) {
         isMovingForward = !isMovingForward;
     }
+    colour = scannerColourChanger();
 }
 
 function isCollidingWall() {
@@ -32,30 +40,45 @@ function isCollidingWall() {
 }
 
 function isCollidingLeftWall() {
-    return rectangleXAxis <= 0 && !isMovingForward;
+    return rectangleXCord <= 0 && !isMovingForward;
 }
 
 function isCollidingrightWall() {
-    return rectangleXAxis + detectWidth >= screenWidth;
+    return rectangleXCord + scannerWidth >= screenWidth;
 }
 
 function detectMove() {
-    const detectorSpeed = 1;
+    const scannerSpeed = 5;
+    return ((rectangleXCord < screenWidth) && isMovingForward)
+        ? rectangleXCord + scannerSpeed
+        : rectangleXCord - scannerSpeed;
+}
 
-    return ((rectangleXAxis < screenWidth) && isMovingForward) ? rectangleXAxis + detectorSpeed : rectangleXAxis - detectorSpeed;
+function scannerColourChanger() {
+    return (isIntersectingParticles()) ? r.RED : r.WHITE;
+}
+
+function isIntersectingParticles() {
+    return (isIntersectingParticle(particle1Start, particle1End) ||
+        isIntersectingParticle(particle2Start, particle2End));
+
+}
+
+function isIntersectingParticle(particleStart, particleEnd) {
+    return rectangleXCord + scannerWidth >= particleStart
+        && rectangleXCord <= particleEnd;
 }
 
 function draw() {
-    const particleStart = 400;
-    const particleEnd = 500;
-    const particleWidth = particleEnd - particleStart;
+    const particle1Width = particle1End - particle1Start;
+    const particle2Width = particle2End - particle2Start;
 
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-
-    r.DrawRectangle(particleStart, 0, particleWidth, screenHeight, r.BLUE);
-    r.DrawRectangle(rectangleXAxis, 0, detectWidth, screenHeight, r.WHITE);
+    r.DrawRectangle(particle1Start, 0, particle1Width, screenHeight, r.BLUE);
+    r.DrawRectangle(particle2Start, 0, particle2Width, screenHeight, r.BLUE);
+    r.DrawRectangle(rectangleXCord, 0, scannerWidth, screenHeight, colour);
 
     r.EndDrawing();
 }
