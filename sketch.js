@@ -1,8 +1,9 @@
 const r = require("raylib");
 
 const screenWidth = 1700;
+
 const screenHeight = 900;
-const rectWidth = 20;
+const detectWidth = 20;
 
 let rectangleXAxis = 0;
 let isMovingForward = true;
@@ -35,20 +36,26 @@ function isCollidingLeftWall() {
 }
 
 function isCollidingrightWall() {
-    return rectangleXAxis + rectWidth >= screenWidth;
+    return rectangleXAxis + detectWidth >= screenWidth;
 }
 
 function detectMove() {
-    const detectorSpeed = 3;
+    const detectorSpeed = 1;
 
     return ((rectangleXAxis < screenWidth) && isMovingForward) ? rectangleXAxis + detectorSpeed : rectangleXAxis - detectorSpeed;
 }
 
 function draw() {
+    const particleStart = 400;
+    const particleEnd = 500;
+    const particleWidth = particleEnd - particleStart;
+
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    r.DrawRectangle(rectangleXAxis, 0, rectWidth, screenHeight, r.WHITE);
+
+    r.DrawRectangle(particleStart, 0, particleWidth, screenHeight, r.BLUE);
+    r.DrawRectangle(rectangleXAxis, 0, detectWidth, screenHeight, r.WHITE);
 
     r.EndDrawing();
 }
