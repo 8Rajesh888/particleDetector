@@ -18,7 +18,6 @@ function setup() {
     r.SetTargetFPS(FPS);
 }
 
-
 function update() {
     rectangleXAxis = detectMove();
 
