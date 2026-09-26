@@ -27,7 +27,7 @@ function setup() {
 }
 
 function update() {
-    rectangleXCord = detectMove();
+    rectangleXCord = moveScannerCord();
 
     if (isCollidingWall()) {
         isMovingForward = !isMovingForward;
@@ -47,7 +47,7 @@ function isCollidingrightWall() {
     return rectangleXCord + scannerWidth >= screenWidth;
 }
 
-function detectMove() {
+function moveScannerCord() {
     const scannerSpeed = 5;
     return ((rectangleXCord < screenWidth) && isMovingForward)
         ? rectangleXCord + scannerSpeed
