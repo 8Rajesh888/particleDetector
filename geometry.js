@@ -7,33 +7,26 @@ function sqr(n) {
     return n * n;
 }
 
-
 function sqrt(n) {
     return n ** 0.5;
 }
-
 
 function distanceBtwnTwoPoints() {
     return sqrt(sqr((circle1x - circle2x)) + sqr((circle1y - circle2y)));
 }
 
-
-
 function getCenter(center, centerofrect, size) {
     return center + (centerofrect - size) / 2;
 }
-
 
 function isOverlapping(scannerCord, particleStart, particleEnd) {
     return scannerCord + scannerWidth >= particleStart
         && scannerCord <= particleEnd;
 }
 
-
 function scannerColourChanger(scannerCord, particleStart, particleEnd) {
     return (isOverlapping(scannerCord, particleStart, particleEnd)) ? r.RED : r.WHITE;
 }
-
 
 function isCollidingSecondWall(scannerXCord, isScannerMovingForward, rightWall) {
     return scannerXCord <= rightWall && !isScannerMovingForward;
@@ -42,7 +35,6 @@ function isCollidingSecondWall(scannerXCord, isScannerMovingForward, rightWall) 
 function isCollidingFirstWall(scannerXCord, leftWall, isScannerMovingForward) {
     return scannerXCord + scannerWidth >= leftWall && isScannerMovingForward;
 }
-
 
 function isCollidingWall(scannerXCord, isScannerMovingForward, rightWall, leftWall) {
     return isCollidingFirstWall(scannerXCord, leftWall, isScannerMovingForward)
