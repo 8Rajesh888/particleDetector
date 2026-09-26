@@ -1,16 +1,19 @@
 const r = require("raylib");
 
-const screenWidth = 1700;
-
+const screenWidth = 1600;
 const screenHeight = 900;
 const scannerWidth = 40;
 
-let rectangleXCord = 0;
-let isMovingForward = true;
-let colour;
+let scanner1XCord = 0;
+let isScanner1MovingForward = true;
+let scanner1Colour;
+
+let scanner2XCord = screenWidth - scannerWidth;
+let isScanner2MovingForward = false;
+let scanner2Colour;
 
 const particle1Start = 500;
-const particle1End = 800;
+const particle1End = 790;
 
 const particle2Start = 1300;
 const particle2End = 1315;
@@ -27,46 +30,56 @@ function setup() {
 }
 
 function update() {
-    rectangleXCord = moveScannerCord();
+    const scanner1Speed = 10;
+    const scanner2Speed = 5;
 
-    if (isCollidingWall()) {
-        isMovingForward = !isMovingForward;
+    scanner1XCord = moveScannerCord(scanner1XCord, (screenWidth / 2), isScanner1MovingForward, scanner1Speed);
+    scanner2XCord = moveScannerCord(scanner2XCord, screenWidth, isScanner2MovingForward, scanner2Speed);
+
+    if (isCollidingWall(scanner1XCord, isScanner1MovingForward, 0, (screenWidth / 2))) {
+        isScanner1MovingForward = !isScanner1MovingForward;
     }
-    colour = scannerColourChanger();
+
+    if (isCollidingWall(scanner2XCord, isScanner2MovingForward, (screenWidth / 2), screenWidth)) {
+        isScanner2MovingForward = !isScanner2MovingForward;
+    }
+
+    scanner1Colour = scannerColourChanger(scanner1XCord);
+    scanner2Colour = scannerColourChanger(scanner2XCord);
 }
 
-function isCollidingWall() {
-    return isCollidingrightWall() || isCollidingLeftWall();
+function isCollidingWall(scannerXCord, isScannerMovingForward, rightWall, leftWall) {
+    return isCollidingLeftWall(scannerXCord, leftWall)
+        || isCollidingRightWall(scannerXCord, isScannerMovingForward, rightWall);
 }
 
-function isCollidingLeftWall() {
-    return rectangleXCord <= 0 && !isMovingForward;
+function isCollidingRightWall(scannerXCord, isScannerMovingForward, rightWall) {
+    return scannerXCord <= rightWall && !isScannerMovingForward;
 }
 
-function isCollidingrightWall() {
-    return rectangleXCord + scannerWidth >= screenWidth;
+function isCollidingLeftWall(scannerXCord, leftWall) {
+    return scannerXCord + scannerWidth >= leftWall;
 }
 
-function moveScannerCord() {
-    const scannerSpeed = 5;
-    return ((rectangleXCord < screenWidth) && isMovingForward)
-        ? rectangleXCord + scannerSpeed
-        : rectangleXCord - scannerSpeed;
+function moveScannerCord(scannerXCord, leftWall, isScannerMovingForward, scannerSpeed) {
+    return ((scannerXCord < leftWall) && isScannerMovingForward)
+        ? scannerXCord + scannerSpeed
+        : scannerXCord - scannerSpeed;
 }
 
-function scannerColourChanger() {
-    return (isIntersectingParticles()) ? r.RED : r.WHITE;
+function scannerColourChanger(scannerXCord) {
+    return (isIntersectingParticles(scannerXCord)) ? r.RED : r.WHITE;
 }
 
-function isIntersectingParticles() {
-    return (isIntersectingParticle(particle1Start, particle1End) ||
-        isIntersectingParticle(particle2Start, particle2End));
+function isIntersectingParticles(scannerXCord) {
+    return (isIntersectingParticle(scannerXCord, particle1Start, particle1End) ||
+        isIntersectingParticle(scannerXCord, particle2Start, particle2End));
 
 }
 
-function isIntersectingParticle(particleStart, particleEnd) {
-    return rectangleXCord + scannerWidth >= particleStart
-        && rectangleXCord <= particleEnd;
+function isIntersectingParticle(scannerXCord, particleStart, particleEnd) {
+    return scannerXCord + scannerWidth >= particleStart
+        && scannerXCord <= particleEnd;
 }
 
 function draw() {
@@ -78,7 +91,8 @@ function draw() {
 
     r.DrawRectangle(particle1Start, 0, particle1Width, screenHeight, r.BLUE);
     r.DrawRectangle(particle2Start, 0, particle2Width, screenHeight, r.BLUE);
-    r.DrawRectangle(rectangleXCord, 0, scannerWidth, screenHeight, colour);
+    r.DrawRectangle(scanner1XCord, 0, scannerWidth, screenHeight, scanner1Colour);
+    r.DrawRectangle(scanner2XCord, 0, scannerWidth, screenHeight, scanner2Colour);
 
     r.EndDrawing();
 }
