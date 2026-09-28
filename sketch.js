@@ -1,30 +1,12 @@
 const r = require("raylib");
-const g = require("./geometry");
-
-const screenWidth = 1600;
-const screenHeight = 900;
-const scannerWidth = 40;
-
-let scanner1XCord = 0;
-let isScanner1MovingForward = true;
-let scanner1Colour;
-
-let scanner2XCord = screenWidth - scannerWidth;
-let isScanner2MovingForward = false;
-let scanner2Colour;
-
-let scanner3YCord = screenHeight - scannerWidth;
-let isScanner3MovingDownward = false;
-let scanner3Colour;
-
-const particle1Start = 500;
-const particle1End = 790;
-
-const particle2Start = 1300;
-const particle2End = 1315;
-
-const particle3Start = 500;
-const particle3End = 600;
+const s = require("./scanner");
+const s1 = require("./scanner1");
+const s2 = require("./scanner2");
+const s3 = require("./scanner3");
+const scr = require("./screen");
+const p1 = require("./particle1");
+const p2 = require("./particle2");
+const p3 = require("./particle3");
 
 function running() {
     return !r.WindowShouldClose();
@@ -32,54 +14,52 @@ function running() {
 
 function setup() {
     const FPS = 50;
-
-    r.InitWindow(screenWidth, screenHeight, "PARTICLE DETECTOR");
+    r.SetTraceLogLevel(r.LOG_NONE);
+    r.InitWindow(scr.width, scr.height, "PARTICLE DETECTOR");
     r.SetTargetFPS(FPS);
 }
 
 function update() {
-    const scanner1Speed = 10;
-    const scanner2Speed = 5;
-    const scanner3Speed = 5;
 
-    scanner1XCord = g.moveScanner(scanner1XCord, (screenWidth / 2), isScanner1MovingForward, scanner1Speed);
-    scanner2XCord = g.moveScanner(scanner2XCord, screenWidth, isScanner2MovingForward, scanner2Speed);
-    scanner3YCord = g.moveScanner(scanner3YCord, screenHeight, isScanner3MovingDownward, scanner3Speed);
+    s1.velocity = s.calcVelocity(s1.velocity, s1.xCord, s1.width, s1.start, s1.end)
+    s1.xCord = s.moveScanner(s1.xCord, s1.velocity);
+    s1.colour = s.scannerColourChanger(s1.xCord, p1.start, p1.end, s1.width);
 
-    if (g.isCollidingWall(scanner1XCord, isScanner1MovingForward, 0, (screenWidth / 2))) {
-        isScanner1MovingForward = !isScanner1MovingForward;
-    }
+    s2.velocity = s.calcVelocity(s2.velocity, s2.xCord, s2.width, s2.start, s2.end)
+    s2.xCord = s.moveScanner(s2.xCord, s2.velocity);
+    s2.colour = s.scannerColourChanger(s2.xCord, p2.start, p2.end, s2.width);
 
-    if (g.isCollidingWall(scanner2XCord, isScanner2MovingForward, (screenWidth / 2), screenWidth)) {
-        isScanner2MovingForward = !isScanner2MovingForward;
-    }
+    s3.velocity = s.calcVelocity(s3.velocity, s3.yCord, s3.height, s3.start, s3.end)
+    s3.yCord = s.moveScanner(s3.yCord, s3.velocity);
+    s3.colour = s.scannerColourChanger(s3.yCord, p3.start, p3.end, s3.height);
 
-    if (g.isCollidingWall(scanner3YCord, isScanner3MovingDownward, 0, screenHeight)) {
-        isScanner3MovingDownward = !isScanner3MovingDownward;
-    }
-
-    scanner1Colour = g.scannerColourChanger(scanner1XCord, particle1Start, particle1End);
-    scanner2Colour = g.scannerColourChanger(scanner2XCord, particle2Start, particle2End);
-    scanner3Colour = g.scannerColourChanger(scanner3YCord, particle3Start, particle3End);
 }
 
 function draw() {
-    const particle1Width = particle1End - particle1Start;
-    const particle2Width = particle2End - particle2Start;
-    const particle3Width = particle3End - particle3Start;
+    const ZERO = 0;
+    const particle1Width = p1.end - p1.start;
+    const particle2Width = p2.end - p2.start;
+    const particle3Width = p3.end - p3.start;
 
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
-    const ZERO = 0;
 
-    r.DrawRectangle(particle1Start, ZERO, particle1Width, screenHeight, r.BLUE);
-    r.DrawRectangle(particle2Start, ZERO, particle2Width, screenHeight, r.BLUE);
-    r.DrawRectangle(ZERO, particle3Start, screenWidth, particle3Width, r.BLUE);
-    r.DrawRectangle(scanner1XCord, ZERO, scannerWidth, screenHeight, scanner1Colour);
-    r.DrawRectangle(scanner2XCord, ZERO, scannerWidth, screenHeight, scanner2Colour);
-    r.DrawRectangle(ZERO, scanner3YCord, screenWidth, scannerWidth, scanner3Colour);
+    drawParticles(ZERO, particle1Width, particle2Width, particle3Width);
+    drawScanners(ZERO);
 
     r.EndDrawing();
+}
+
+function drawScanners(ZERO) {
+    r.DrawRectangle(s1.xCord, ZERO, s1.width, scr.height, s1.colour);
+    r.DrawRectangle(s2.xCord, ZERO, s2.width, scr.height, s2.colour);
+    r.DrawRectangle(ZERO, s3.yCord, scr.width, s3.height, s3.colour);
+}
+
+function drawParticles(ZERO, particle1Width, particle2Width, particle3Width) {
+    r.DrawRectangle(p1.start, ZERO, particle1Width, scr.height, r.BLUE);
+    r.DrawRectangle(p2.start, ZERO, particle2Width, scr.height, r.BLUE);
+    r.DrawRectangle(ZERO, p3.start, scr.width, particle3Width, r.BLUE);
 }
 
 function teardown() {
