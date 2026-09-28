@@ -1,18 +1,20 @@
-const p1start = 500;
-const p1end = 790;
+const p1Start = 500;
+const p1End = 790;
 
-const p2start = 1300;
-const p2end = 1315;
+const p2Start = 1300;
+const p2End = 1315;
 
-const p3start = 500;
-const p3end = 600;
+const p3Start = 500;
+const p3End = 600;
 
 module.exports = {
-    p1start,
-    p1end,
-    p2start,
-    p2end,
-    p3start,
-    p3end,
+    p1Start,
+    p1End,
+
+    p2Start,
+    p2End,
+
+    p3Start,
+    p3End,
 }
 

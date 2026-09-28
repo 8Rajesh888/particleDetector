@@ -20,7 +20,7 @@ let s2Colour;
 const s3Height = 40;
 const s3Start = 0;
 const s3End = w.height;
-let s3YCord = w.height - height;
+let s3YCord = w.height - s3Height;
 let s3Velocity = 6;
 let s3Colour;
 

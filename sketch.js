@@ -14,7 +14,7 @@ function setup() {
     r.SetTargetFPS(FPS);
 }
 
-function updatesS1() {
+function updatesS3() {
     s.s3Velocity = s.deriveVelocity(s.s3Velocity, s.s3YCord, s.s3Height, s.s3Start, s.s3End);
     s.s3YCord = s.moveScanner(s.s3YCord, s.s3Velocity);
     s.s3Colour = s.deriveScannerColour(s.s3YCord, p.p3Start, p.p3End, s.s3Height);
