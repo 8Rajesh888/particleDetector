@@ -1,8 +1,8 @@
-const scr = require("./screen");
+const w = require("./window");
 const height = 40;
 const start = 0;
-const end = scr.height;
-let yCord = scr.height - height;
+const end = w.height;
+let yCord = w.height - height;
 let velocity = 6;
 let colour;
 

@@ -5,11 +5,13 @@ function hasDetected(scannerCord, particleStart, particleEnd, widthOrHeight) {
         && scannerCord <= particleEnd;
 }
 
-function scannerColourChanger(scannerCord, particleStart, particleEnd, widthOrHeight) {
+// fixme - better name this.
+function deriveScannerColour(scannerCord, particleStart, particleEnd, widthOrHeight) {
     return (hasDetected(scannerCord, particleStart, particleEnd, widthOrHeight)) ? r.RED : r.WHITE;
 }
 
-function calcVelocity(velocity, start, width, range1, range2) {
+// fixme - better name this. 
+function deriveVelocity(velocity, start, width, range1, range2) {
     return ifOutOfBounds(start, width, range1, range2)
         ? -velocity : velocity;
 }
@@ -24,6 +26,6 @@ function moveScanner(scannerCord, Velocity) {
 
 module.exports = {
     moveScanner,
-    scannerColourChanger,
-    calcVelocity
+    deriveScannerColour,
+    deriveVelocity
 }

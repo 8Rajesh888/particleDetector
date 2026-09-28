@@ -1,4 +1,4 @@
-const scr = require("./screen");
+const scr = require("./window");
 const width = 100;
 const start = 0;
 const end = scr.width / 2;
