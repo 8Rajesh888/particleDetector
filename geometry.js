@@ -15,7 +15,8 @@ function getCenter(center, centerofrect, size) {
 }
 
 module.exports = {
-    moveScanner,
-    isCollidingWall,
-    scannerColourChanger
+    sqr,
+    sqrt,
+    distanceBtwnTwoPoints,
+    getCenter
 }
