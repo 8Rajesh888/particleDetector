@@ -44,14 +44,11 @@ function update() {
 }
 
 function draw() {
-    const particle1Width = p.p1End - p.p1Start;
-    const particle2Width = p.p2End - p.p2Start;
-    const particle3Width = p.p3End - p.p3Start;
 
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    drawParticles(particle1Width, particle2Width, particle3Width);
+    drawParticles();
     drawScanners();
 
     r.EndDrawing();
@@ -59,13 +56,18 @@ function draw() {
 
 function drawScanners() {
     const cord = 0;
+
     r.DrawRectangle(s.s1XCord, cord, s.s1Width, w.height, s.s1Colour);
     r.DrawRectangle(s.s2XCord, cord, s.s2Width, w.height, s.s2Colour);
     r.DrawRectangle(cord, s.s3YCord, w.width, s.s3Height, s.s3Colour);
 }
 
-function drawParticles(particle1Width, particle2Width, particle3Width) {
+function drawParticles() {
     const cord = 0;
+    const particle1Width = p.p1End - p.p1Start;
+    const particle2Width = p.p2End - p.p2Start;
+    const particle3Width = p.p3End - p.p3Start;
+
     r.DrawRectangle(p.p1Start, cord, particle1Width, w.height, r.BLUE);
     r.DrawRectangle(p.p2Start, cord, particle2Width, w.height, r.BLUE);
     r.DrawRectangle(cord, p.p3Start, w.width, particle3Width, r.BLUE);
