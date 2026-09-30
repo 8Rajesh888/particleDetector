@@ -64,6 +64,7 @@ function drawScanners() {
 
 function drawParticles() {
     const cord = 0;
+
     const particle1Width = p.p1End - p.p1Start;
     const particle2Width = p.p2End - p.p2Start;
     const particle3Width = p.p3End - p.p3Start;
