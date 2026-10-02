@@ -1,21 +1,11 @@
-p1 = {
-    start: 500,
-    end: 790,
-}
-
-p2 = {
-    start: 1300,
-    end: 1315,
-}
-
-p3 = {
-    start: 500,
-    end: 600,
+function createParticle(s, e) {
+    return {
+        start: s,
+        end: e,
+    }
 }
 
 module.exports = {
-    p1,
-    p2,
-    p3
+    createParticle
 }
 

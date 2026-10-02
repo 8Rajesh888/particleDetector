@@ -1,82 +1,73 @@
 const r = require("raylib");
 const w = require("./window");
 
-const s1 = {
-    dimension: 100,
-    start: 0,
-    end: w.width / 2,
-    coord: 0,
-    velocity: 5,
-    colour: r.WHITE,
+
+
+function createScanner(d, s, e, v, cr, co) {
+    return {
+        dimension: d,
+        start: s,
+        end: e,
+        coord: co,
+        velocity: v,
+        colour: cr,
+    }
 }
 
-const s2 = {
-    dimension: 40,
-    start: w.width / 2,
-    end: w.width,
-    coord: (w.width / 2) + 10,
-    velocity: 3,
-    colour: r.WHITE,
+function hasDetected(s, p) {
+    return s.coord + s.dimension >= p.start
+        && s.coord <= p.end;
 }
 
-const s3 = {
-    dimension: 40,
-    start: 0,
-    end: w.height,
-    velocity: 6,
-    colour: r.WHITE,
+function deriveScannerColour(s, p) {
+    return (hasDetected(s, p)) ? r.RED : r.WHITE;
 }
 
-s3.coord = w.height - s3.dimension;
-
-function hasDetected(scannerCoord, particleStart, particleEnd, widthOrHeight) {
-    return scannerCoord + widthOrHeight >= particleStart
-        && scannerCoord <= particleEnd;
+function deriveVelocity(s) {
+    return ifOutOfBounds(s)
+        ? -(s.velocity) : (s.velocity);
 }
 
-function deriveScannerColour(scannerCoord, particleStart, particleEnd, widthOrHeight) {
-    return (hasDetected(scannerCoord, particleStart, particleEnd, widthOrHeight)) ? r.RED : r.WHITE;
+function ifOutOfBounds(s) {
+    return s.coord < s.start || (s.coord + s.dimension) > s.end;
 }
 
-function deriveVelocity(velocity, position, width, range1, range2) {
-    return ifOutOfBounds(position, width, range1, range2)
-        ? -velocity : velocity;
+function moveScanner(s) {
+    return s.coord + s.velocity;
 }
 
-function ifOutOfBounds(position, width, minrange, maxrange) {
-    return position < minrange || (position + width) > maxrange;
+function drawScanners(s1, s2, s3) {
+    const coord = 0;
+
+    r.DrawRectangle(s1.coord, coord, s1.dimension, w.height, s1.colour);
+    r.DrawRectangle(s2.coord, coord, s2.dimension, w.height, s2.colour);
+    r.DrawRectangle(coord, s3.coord, w.width, s3.dimension, s3.colour);
 }
 
-function moveScanner(scannerCoord, Velocity) {
-    return scannerCoord + Velocity;
+function drawParticles(p1, p2, p3) {
+    const coord = 0;
+
+    const particle1Width = p1.end - p1.start;
+    const particle2Width = p2.end - p2.start;
+    const particle3Width = p3.end - p3.start;
+
+    r.DrawRectangle(p1.start, coord, particle1Width, w.height, r.BLUE);
+    r.DrawRectangle(p2.start, coord, particle2Width, w.height, r.BLUE);
+    r.DrawRectangle(coord, p3.start, w.width, particle3Width, r.BLUE);
+}
+
+function updatesScanner(sx, p) {
+    sx.velocity = deriveVelocity(sx);
+    sx.coord = moveScanner(sx);
+    sx.colour = deriveScannerColour(sx, p);
 }
 
 module.exports = {
     moveScanner,
     deriveScannerColour,
     deriveVelocity,
-
-    s1,
-    s2,
-    s3
-    // s1Width,
-    // s1Start,
-    // s1End,
-    // s1XCoord,
-    // s1Velocity,
-    // s1Colour,
-
-    // s2Width,
-    // s2Start,
-    // s2End,
-    // s2XCoord,
-    // s2Velocity,
-    // s2Colour,
-
-    // s3Height,
-    // s3Start,
-    // s3End,
-    // s3YCoord,
-    // s3Velocity,
-    // s3Colour
+    drawScanners,
+    drawParticles,
+    updatesScanner,
+    createScanner,
 }
