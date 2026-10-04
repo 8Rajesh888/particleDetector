@@ -16,9 +16,9 @@ function setup() {
     world.s2 = s.createScanner(40, 40, world.w.height, world.w.width / 2, world.w.width, 3, r.WHITE, (world.w.width / 2) + 10);
     world.s3 = s.createScanner(40, world.w.width, 40, 0, world.w.height, 6, r.WHITE, 0);
 
-    world.p1 = p.createParticle(500, 790);
-    world.p2 = p.createParticle(1300, 1315);
-    world.p3 = p.createParticle(500, 600);
+    world.p1 = p.createParticle(500, 790, 280, world.w.height);
+    world.p2 = p.createParticle(1300, 1315, 15, world.w.height);
+    world.p3 = p.createParticle(500, 600, world.w.width, 100);
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(world.w.width, world.w.height, "PARTICLE DETECTOR");

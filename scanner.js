@@ -1,5 +1,4 @@
 const r = require("raylib");
-const w = require("./window");
 
 function createScanner(d, w, h, s, e, v, cr, co) {
     return {
@@ -47,13 +46,9 @@ function drawScanners(s1, s2, s3) {
 function drawParticles(p1, p2, p3) {
     const coord = 0;
 
-    const particle1Width = p1.end - p1.start;
-    const particle2Width = p2.end - p2.start;
-    const particle3Width = p3.end - p3.start;
-
-    r.DrawRectangle(p1.start, coord, particle1Width, w.height, r.BLUE);
-    r.DrawRectangle(p2.start, coord, particle2Width, w.height, r.BLUE);
-    r.DrawRectangle(coord, p3.start, w.width, particle3Width, r.BLUE);
+    r.DrawRectangle(p1.start, coord, p1.width, p1.height, r.BLUE);
+    r.DrawRectangle(p2.start, coord, p2.width, p2.height, r.BLUE);
+    r.DrawRectangle(coord, p3.start, p3.width, p3.height, r.BLUE);
 }
 
 function updatesScanner(sx, p) {
