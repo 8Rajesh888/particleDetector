@@ -45,8 +45,6 @@ module.exports = {
     moveScanner,
     deriveScannerColour,
     deriveVelocity,
-    // drawScanners,
-    // drawParticles,
     updatesScanner,
     createScanner,
 }

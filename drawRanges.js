@@ -1,4 +1,4 @@
-
+const r = require("raylib");
 function drawScanners(s1, s2, s3) {
     const coord = 0;
 
