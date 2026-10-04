@@ -1,6 +1,7 @@
 const r = require("raylib");
 const s = require("./scanner");
 const p = require("./particle");
+const d = require("./drawRanges");
 
 function running() {
     return !r.WindowShouldClose();
@@ -39,8 +40,8 @@ function draw(world) {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    s.drawParticles(world.p1, world.p2, world.p3);
-    s.drawScanners(world.s1, world.s2, world.s3);
+    d.drawParticles(world.p1, world.p2, world.p3);
+    d.drawScanners(world.s1, world.s2, world.s3);
 
     r.EndDrawing();
 }
