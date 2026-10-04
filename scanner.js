@@ -1,8 +1,6 @@
 const r = require("raylib");
 const w = require("./window");
 
-
-
 function createScanner(d, s, e, v, cr, co) {
     return {
         dimension: d,

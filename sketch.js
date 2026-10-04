@@ -1,8 +1,6 @@
 const r = require("raylib");
 const s = require("./scanner");
-const w = require("./window");
 const p = require("./particle");
-
 
 function running() {
     return !r.WindowShouldClose();
@@ -12,17 +10,18 @@ function setup() {
     const FPS = 50;
     const world = {};
 
-    world.s1 = s.createScanner(100, 0, w.width / 2, 5, r.WHITE, 0);
-    world.s2 = s.createScanner(40, w.width / 2, w.width, 3, r.WHITE, (w.width / 2) + 10);
-    world.s3 = s.createScanner(40, 0, w.height, 6, r.WHITE);
-    world.s3.coord = w.height - world.s3.dimension;
+    world.w = { width: 1600, height: 900 }
+
+    world.s1 = s.createScanner(100, 0, world.w.width / 2, 5, r.WHITE, 0);
+    world.s2 = s.createScanner(40, world.w.width / 2, world.w.width, 3, r.WHITE, (world.w.width / 2) + 10);
+    world.s3 = s.createScanner(40, 0, world.w.height, 6, r.WHITE, 0);
 
     world.p1 = p.createParticle(500, 790);
     world.p2 = p.createParticle(1300, 1315);
     world.p3 = p.createParticle(500, 600);
 
     r.SetTraceLogLevel(r.LOG_NONE);
-    r.InitWindow(w.width, w.height, "PARTICLE DETECTOR");
+    r.InitWindow(world.w.width, world.w.height, "PARTICLE DETECTOR");
     r.SetTargetFPS(FPS);
 
     return world;
