@@ -12,9 +12,9 @@ function setup() {
 
     world.w = { width: 1600, height: 900 }
 
-    world.s1 = s.createScanner(100, 0, world.w.width / 2, 5, r.WHITE, 0);
-    world.s2 = s.createScanner(40, world.w.width / 2, world.w.width, 3, r.WHITE, (world.w.width / 2) + 10);
-    world.s3 = s.createScanner(40, 0, world.w.height, 6, r.WHITE, 0);
+    world.s1 = s.createScanner(100, 100, world.w.height, 0, world.w.width / 2, 5, r.WHITE, 0);
+    world.s2 = s.createScanner(40, 40, world.w.height, world.w.width / 2, world.w.width, 3, r.WHITE, (world.w.width / 2) + 10);
+    world.s3 = s.createScanner(40, world.w.width, 40, 0, world.w.height, 6, r.WHITE, 0);
 
     world.p1 = p.createParticle(500, 790);
     world.p2 = p.createParticle(1300, 1315);
